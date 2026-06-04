@@ -1,5 +1,7 @@
 import os
 from .base import *
+import os
+print('🛠️ DEBUG: DATABASE_URL =', os.getenv('DATABASE_URL'))
 
 DEBUG = False
 

@@ -26,13 +26,28 @@ STATIC_URL = '/static/'
 WHITENOISE_USE_FINDERS = True
 
 # Django 5 uses STORAGES; keep static/media backends explicit for Render.
-STORAGES = {
-    'default': {
-        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-    },
-    'staticfiles': {
-        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
-    },
-}
+# Configure storage backends. Use Cloudinary for media if CLOUDINARY_URL is set;
+# otherwise fall back to the local file system storage.
+import os
+if os.getenv('CLOUDINARY_URL'):
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
+else:
+    # Fallback to local filesystem storage (good for testing/development)
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
 
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[])
+# Allow all origins by default for simplicity; you can restrict later using env var.
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['*'])

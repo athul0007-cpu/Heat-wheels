@@ -1,0 +1,32 @@
+<article class="grid-card">
+  <a href="{% url 'products:detail' slug=product.slug %}">
+    {% if product.images.first %}
+    <img class="grid-card-img" src="{{ product.images.first.image.url }}" alt="{{ product.title }}" />
+    {% else %}
+    <img class="grid-card-img" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=600&auto=format&fit=crop" alt="{{ product.title }}" />
+    {% endif %}
+  </a>
+  <div class="grid-card-body">
+    <a href="{% url 'products:detail' slug=product.slug %}" style="text-decoration:none;color:inherit">
+      <div class="grid-card-name">{{ product.title }}</div>
+      <div class="grid-card-price">₹{{ product.price }}<span> / unit</span></div>
+    </a>
+    <div class="grid-card-meta">
+      {% if product.stock > 0 %}
+      <span class="dot-green"></span>
+      <span style="font-size:0.75rem;color:#8A8FA8">{{ product.stock }} in stock</span>
+      {% else %}
+      <span style="font-size:0.75rem;color:#e74c3c">Sold out</span>
+      {% endif %}
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+      {% if product.stock > 0 %}
+      <form action="{% url 'cart:add' product.id %}" method="post" style="margin:0">
+        {% csrf_token %}
+        <button type="submit" class="btn-teal" style="font-size:0.78rem;padding:0.4rem 1rem">Add to Cart</button>
+      </form>
+      {% endif %}
+      <a href="{% url 'products:detail' slug=product.slug %}" class="btn-ghost" style="font-size:0.78rem;padding:0.4rem 1rem">Details</a>
+    </div>
+  </div>
+</article>

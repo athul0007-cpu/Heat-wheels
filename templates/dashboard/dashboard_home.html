@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Heat Wheels{% endblock %}
+{% block content %}
+<section class="py-24">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="rounded-[2rem] border border-slate-800 bg-slate-900/90 p-10">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-white">Management Dashboard</h1>
+          <p class="mt-3 text-slate-400">Centralized overview for products, users, orders, campaigns, and support.</p>
+        </div>
+        <a href="{% url 'admin:index' %}" class="btn-primary rounded-full px-5 py-3 text-sm font-semibold">Open Admin</a>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-5">
+        <a href="{% url 'admin:products_product_changelist' %}" class="rounded-3xl border border-slate-800 p-6">
+          <p class="text-sm uppercase tracking-[0.2em] text-orange-400">Products</p>
+          <p class="mt-3 text-3xl font-bold text-white">{{ product_count }}</p>
+        </a>
+        <a href="{% url 'admin:orders_order_changelist' %}" class="rounded-3xl border border-slate-800 p-6">
+          <p class="text-sm uppercase tracking-[0.2em] text-orange-400">Orders</p>
+          <p class="mt-3 text-3xl font-bold text-white">{{ order_count }}</p>
+        </a>
+        <a href="{% url 'admin:auth_user_changelist' %}" class="rounded-3xl border border-slate-800 p-6">
+          <p class="text-sm uppercase tracking-[0.2em] text-orange-400">Users</p>
+          <p class="mt-3 text-3xl font-bold text-white">{{ user_count }}</p>
+        </a>
+        <a href="{% url 'admin:promotions_promotion_changelist' %}" class="rounded-3xl border border-slate-800 p-6">
+          <p class="text-sm uppercase tracking-[0.2em] text-orange-400">Campaigns</p>
+          <p class="mt-3 text-3xl font-bold text-white">{{ promotion_count }}</p>
+        </a>
+        <a href="{% url 'admin:support_supportmessage_changelist' %}" class="rounded-3xl border border-slate-800 p-6">
+          <p class="text-sm uppercase tracking-[0.2em] text-orange-400">Support</p>
+          <p class="mt-3 text-3xl font-bold text-white">{{ open_support_count }}</p>
+        </a>
+      </div>
+
+      <div class="mt-10 rounded-3xl border border-slate-800 p-6">
+        <h2 class="text-xl font-semibold text-white">Recent Orders</h2>
+        <div class="mt-5 space-y-3">
+          {% for order in recent_orders %}
+          <div class="flex flex-col gap-2 rounded-2xl bg-slate-950/70 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <span class="text-slate-300">#{{ order.id }} by {{ order.user.username }}</span>
+            <span class="font-semibold text-orange-300">₹{{ order.total_amount }}</span>
+          </div>
+          {% empty %}
+          <p class="text-slate-400">No orders yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

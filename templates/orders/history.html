@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Order History | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem">
+  <h1 style="font-size:1.4rem;font-weight:800;color:#1A1D27;margin-bottom:1.5rem">📋 Order History</h1>
+  {% for order in orders %}
+  <div style="background:#fff;border-radius:16px;padding:1.25rem;border:1.5px solid #EAECF3;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <div>
+      <div style="font-weight:700;color:#1A1D27">Order #{{ order.id }}</div>
+      <div style="font-size:0.82rem;color:#8A8FA8;margin-top:0.2rem">{{ order.created_at|date:"M d, Y" }}</div>
+    </div>
+    <div style="font-weight:700;color:#3CC8C8">₹{{ order.total_amount }}</div>
+    <span class="category-pill" style="font-size:0.75rem;padding:0.35rem 0.8rem">{{ order.status|default:"Processing" }}</span>
+  </div>
+  {% empty %}
+  <div style="background:#fff;border-radius:16px;padding:3rem;text-align:center;border:1.5px solid #EAECF3;color:#8A8FA8">
+    No orders yet. <a href="{% url 'products:list' %}" style="color:#3CC8C8;font-weight:600">Start shopping →</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

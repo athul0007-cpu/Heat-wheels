@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}About | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem;max-width:700px">
+  <h1 style="font-size:1.6rem;font-weight:800;color:#1A1D27">About Heat Wheels</h1>
+  <p style="margin-top:1rem;font-size:0.92rem;color:#555;line-height:1.8">
+    Heat Wheels is a premium platform for die-cast enthusiasts and collectors. We bring together the finest selection of die-cast models, collectibles, and exclusive deals — all in one place.
+  </p>
+  <p style="margin-top:1rem;font-size:0.92rem;color:#555;line-height:1.8">
+    Whether you're looking for rare Hot Wheels models, limited editions, or everyday rides, Heat Wheels has you covered with secure checkout and fast delivery.
+  </p>
+  <a href="{% url 'products:list' %}" class="btn-teal" style="margin-top:1.5rem;display:inline-flex">Explore Collection →</a>
+</div>
+{% endblock %}

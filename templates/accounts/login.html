@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Sign In | Heat Wheels{% endblock %}
+{% block content %}
+<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div style="background:#fff;border-radius:20px;padding:2.5rem;border:1.5px solid #EAECF3;width:100%;max-width:420px;box-shadow:0 4px 20px rgba(0,0,0,0.06)">
+    <h1 style="font-size:1.4rem;font-weight:800;color:#1A1D27;text-align:center;margin-bottom:0.3rem">Welcome back</h1>
+    <p style="text-align:center;font-size:0.85rem;color:#8A8FA8;margin-bottom:1.75rem">Sign in to your Heat Wheels account</p>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <div style="margin-bottom:1rem">
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#1A1D27;margin-bottom:0.35rem">{{ field.label }}</label>
+        <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.html_name }}" value="{{ field.value|default:'' }}"
+          style="width:100%;padding:0.65rem 1rem;border:1.5px solid #EAECF3;border-radius:12px;font-size:0.9rem;outline:none;transition:border-color 0.2s"
+          onfocus="this.style.borderColor='#3CC8C8'" onblur="this.style.borderColor='#EAECF3'"
+          placeholder="{{ field.label }}">
+        {% for error in field.errors %}<p style="color:#e74c3c;font-size:0.78rem;margin-top:0.25rem">{{ error }}</p>{% endfor %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn-teal" style="width:100%;padding:0.75rem;font-size:0.95rem;margin-top:0.5rem">Sign In</button>
+    </form>
+    <p style="text-align:center;margin-top:1.25rem;font-size:0.85rem;color:#8A8FA8">
+      Don't have an account? <a href="{% url 'accounts:register' %}" style="color:#3CC8C8;font-weight:600">Sign Up</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

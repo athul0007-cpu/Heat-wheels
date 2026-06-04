@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Cart | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem">
+  <h1 style="font-size:1.5rem;font-weight:800;color:#1A1D27;margin-bottom:1.5rem">🛒 Your Cart</h1>
+  {% if cart_items %}
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    {% for item in cart_items %}
+    <div style="background:#fff;border-radius:16px;padding:1.25rem;border:1.5px solid #EAECF3;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:150px">
+        <div style="font-weight:700;color:#1A1D27">{{ item.product.title }}</div>
+        <div style="font-size:0.82rem;color:#8A8FA8;margin-top:0.2rem">Qty: {{ item.quantity }}</div>
+      </div>
+      <div style="font-weight:700;color:#3CC8C8;font-size:1.1rem">₹{{ item.get_total }}</div>
+      <form action="{% url 'cart:remove' item.id %}" method="post" style="margin:0">
+        {% csrf_token %}
+        <button type="submit" class="btn-ghost" style="font-size:0.78rem;padding:0.35rem 0.9rem;color:#e74c3c;border-color:#e74c3c">Remove</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="background:#fff;border-radius:16px;padding:1.5rem;border:1.5px solid #EAECF3;margin-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <div style="font-size:1.2rem;font-weight:800;color:#1A1D27">Total: <span style="color:#3CC8C8">₹{{ total }}</span></div>
+    <a href="{% url 'orders:checkout' %}" class="btn-teal" style="font-size:0.95rem;padding:0.7rem 2rem">Proceed to Checkout →</a>
+  </div>
+  {% else %}
+  <div style="background:#fff;border-radius:16px;padding:3rem;text-align:center;border:1.5px solid #EAECF3;color:#8A8FA8">
+    Your cart is empty. <a href="{% url 'products:list' %}" style="color:#3CC8C8;font-weight:600">Start shopping →</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

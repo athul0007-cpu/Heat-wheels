@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Heat Wheels — Premium Die-Cast & Hot Wheels Collectibles{% endblock %}
+{% block content %}
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <img class="hero-img" src="{% static 'images/hero_bg.png' %}" alt="Premium Hot Wheels model">
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Premium Die-Cast Collection</p>
+    <h1 class="hero-title">Find your<br><span class="accent">perfect model</span><br>right here</h1>
+    <p class="hero-subtitle">Browse top brands, exclusive deals, and limited editions. Add to cart and checkout instantly.</p>
+    <a href="{% url 'products:list' %}" class="hero-cta">
+      Explore Models
+      <span class="hero-cta-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ─── POPULAR BRANDS ─── -->
+<div class="section">
+  <div class="section-header">
+    <h2 class="section-title">Popular Brand</h2>
+    <a href="{% url 'products:list' %}" class="section-link">See All ›</a>
+  </div>
+  <div class="brand-row">
+    <a href="{% url 'products:list' %}?q=porsche" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/porsche.svg" alt="Porsche" style="width:28px;height:28px;">
+      </div>
+      <span class="brand-name">Porsche</span>
+    </a>
+    <a href="{% url 'products:list' %}?q=bmw" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bmw.svg" alt="BMW" style="width:28px;height:28px;">
+      </div>
+      <span class="brand-name">BMW</span>
+    </a>
+    <a href="{% url 'products:list' %}?q=mercedes" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mercedes.svg" alt="Mercedes" style="width:28px;height:28px;">
+      </div>
+      <span class="brand-name">Mercedes</span>
+    </a>
+    <a href="{% url 'products:list' %}?q=tesla" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tesla.svg" alt="Tesla" style="width:24px;height:24px;">
+      </div>
+      <span class="brand-name">Tesla</span>
+    </a>
+    <a href="{% url 'products:list' %}?q=ferrari" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/ferrari.svg" alt="Ferrari" style="width:28px;height:28px;">
+      </div>
+      <span class="brand-name">Ferrari</span>
+    </a>
+    <a href="{% url 'products:list' %}?q=lamborghini" class="brand-chip">
+      <div class="brand-icon">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/lamborghini.svg" alt="Lamborghini" style="width:28px;height:28px;">
+      </div>
+      <span class="brand-name">Lamborghini</span>
+    </a>
+  </div>
+</div>
+
+<!-- ─── TOP TRENDS ─── -->
+<div class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">Top Trends 🔥</h2>
+    <a href="{% url 'products:list' %}" class="section-link">See All ›</a>
+  </div>
+  <div class="cards-row">
+    {% for product in featured_products %}
+    <a href="{% url 'products:detail' product.slug %}" class="car-card">
+      {% if product.images.first %}
+        <img class="car-card-img" src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+      {% else %}
+        <img class="car-card-img" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=600&auto=format&fit=crop" alt="{{ product.title }}">
+      {% endif %}
+      <div class="car-card-body">
+        <div class="car-card-name">{{ product.title|truncatechars:22 }}</div>
+        <div class="car-card-price">₹{{ product.price }}<span> / unit</span></div>
+        <div class="car-card-meta">
+          <span class="dot-green"></span>
+          <span class="car-card-location">In Stock</span>
+          <span class="car-card-rating">★ 4.8</span>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    {% for i in "123" %}
+    <div class="car-card">
+      <img class="car-card-img" src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=600&auto=format&fit=crop" alt="Car">
+      <div class="car-card-body">
+        <div class="car-card-name">Premium Model</div>
+        <div class="car-card-price">$299<span> / unit</span></div>
+        <div class="car-card-meta">
+          <span class="dot-green"></span>
+          <span class="car-card-location">In Stock</span>
+          <span class="car-card-rating">★ 4.9</span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ─── PROMOTIONS ─── -->
+{% if promotions %}
+<div class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">Hot Deals 🏷️</h2>
+    <a href="{% url 'promotions:list' %}" class="section-link">See All ›</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    {% for promo in promotions %}
+    <div class="promo-card">
+      <div class="promo-accent"></div>
+      <div class="promo-card-title">{{ promo.title }}</div>
+      <div class="promo-card-sub">{{ promo.description|default:"Limited time offer"|truncatechars:80 }}</div>
+      <a href="{% url 'promotions:list' %}" class="btn-teal" style="font-size:0.8rem;padding:0.45rem 1rem;">
+        {{ promo.call_to_action|default:"Explore Deal" }}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ─── NEW ARRIVALS ─── -->
+<div class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">Popular Models</h2>
+    <a href="{% url 'products:list' %}" class="section-link">See All ›</a>
+  </div>
+  <div class="cards-grid">
+    {% for product in new_arrivals %}
+    <a href="{% url 'products:detail' product.slug %}" class="grid-card">
+      {% if product.images.first %}
+        <img class="grid-card-img" src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+      {% else %}
+        <img class="grid-card-img" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop" alt="{{ product.title }}">
+      {% endif %}
+      <div class="grid-card-body">
+        <div class="grid-card-name">{{ product.title }}</div>
+        <div class="grid-card-price">₹{{ product.price }}<span> / unit</span></div>
+        <div class="grid-card-meta">
+          <span class="dot-green"></span>
+          <span style="font-size:0.75rem;color:#8A8FA8">In Stock</span>
+          <span class="car-card-rating" style="margin-left:auto">★ 4.7</span>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <div style="grid-column:1/-1;background:#fff;border-radius:16px;padding:2rem;text-align:center;color:#8A8FA8;border:1.5px solid #EAECF3;">
+      Add products in admin to display them here.
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ─── CATEGORIES ─── -->
+{% if categories %}
+<div class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2 class="section-title">Browse by Series</h2>
+    <a href="{% url 'products:list' %}" class="section-link">See All ›</a>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+    {% for cat in categories %}
+    <a href="{% url 'products:list' %}?category={{ cat.slug }}" class="category-pill">
+      🏷️ {{ cat.name }}
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

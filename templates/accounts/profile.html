@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Profile | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem;max-width:600px">
+  <h1 style="font-size:1.4rem;font-weight:800;color:#1A1D27;margin-bottom:1.5rem">👤 My Profile</h1>
+  <div style="background:#fff;border-radius:18px;padding:1.75rem;border:1.5px solid #EAECF3">
+    <p style="font-size:0.9rem;color:#555"><strong>Username:</strong> {{ user.username }}</p>
+    <p style="font-size:0.9rem;color:#555;margin-top:0.5rem"><strong>Email:</strong> {{ user.email }}</p>
+    {% if profile %}
+    <p style="font-size:0.9rem;color:#555;margin-top:0.5rem"><strong>Phone:</strong> {{ profile.phone_number|default:"Not set" }}</p>
+    <p style="font-size:0.9rem;color:#555;margin-top:0.5rem"><strong>Address:</strong> {{ profile.address|default:"Not set" }}</p>
+    {% endif %}
+    <div style="display:flex;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap">
+      <a href="{% url 'accounts:profile_update' %}" class="btn-teal" style="font-size:0.85rem">Edit Profile</a>
+      <a href="{% url 'orders:history' %}" class="btn-ghost" style="font-size:0.85rem">Order History</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

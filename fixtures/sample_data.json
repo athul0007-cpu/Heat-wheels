@@ -1,0 +1,74 @@
+[
+  {
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+      "name": "Street Racers",
+      "slug": "street-racers",
+      "description": "Bold street-legal performance cars built for collectors."
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+      "name": "Collector Editions",
+      "slug": "collector-editions",
+      "description": "Limited release cars with premium paint, packaging, and detail."
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "title": "Neon Drift Runner",
+      "slug": "neon-drift-runner",
+      "summary": "A limited neon edition designed for high-speed drift action.",
+      "description": "This collector-grade model features glowing accents, low-profile tires, and a matte finish inspired by urban racers.",
+      "price": "24.99",
+      "stock": 18,
+      "is_active": true,
+      "featured": true,
+      "created_at": "2026-01-15T12:00:00Z",
+      "updated_at": "2026-01-15T12:00:00Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "category": 2,
+      "title": "Collector Vault Cruiser",
+      "slug": "collector-vault-cruiser",
+      "summary": "A premium showcase car for serious collectors.",
+      "description": "Designed with a glossy race finish, signature HotWheels accents, and display-ready styling.",
+      "price": "39.99",
+      "stock": 10,
+      "is_active": true,
+      "featured": true,
+      "created_at": "2026-02-02T08:00:00Z",
+      "updated_at": "2026-02-02T08:00:00Z"
+    }
+  },
+  {
+    "model": "promotions.promotion",
+    "pk": 1,
+    "fields": {
+      "title": "Racer X Launch",
+      "description": "A premium campaign highlighting the latest collector drops.",
+      "call_to_action": "Shop the launch",
+      "is_live": true,
+      "launch_date": "2026-05-26T00:00:00Z"
+    }
+  },
+  {
+    "model": "support.faq",
+    "pk": 1,
+    "fields": {
+      "question": "How do I track my order?",
+      "answer": "Visit your order history page after checkout to see tracking updates.",
+      "featured": true
+    }
+  }
+]

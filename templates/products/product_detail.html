@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.title }} | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem">
+  <div style="display:grid;gap:2rem;grid-template-columns:1fr;max-width:900px;margin:0 auto">
+    {% if object.images.exists %}
+    <div style="display:grid;gap:0.75rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+      {% for image in object.images.all|slice:":3" %}
+      <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="width:100%;height:260px;object-fit:cover;border-radius:16px;border:1.5px solid #EAECF3">
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="background:#fff;border-radius:20px;padding:2rem;border:1.5px solid #EAECF3">
+      <h1 style="font-size:1.6rem;font-weight:800;color:#1A1D27">{{ object.title }}</h1>
+      <p style="font-size:0.9rem;color:#8A8FA8;margin-top:0.5rem">{{ object.summary }}</p>
+
+      <div style="display:flex;align-items:center;gap:1rem;margin-top:1.25rem;flex-wrap:wrap">
+        <span style="font-size:1.5rem;font-weight:800;color:#3CC8C8">₹{{ object.price }}</span>
+        <span style="font-size:0.82rem;color:#8A8FA8">{{ object.stock }} in stock</span>
+      </div>
+
+      <p style="margin-top:1.25rem;font-size:0.9rem;color:#555;line-height:1.7">{{ object.description }}</p>
+
+      <div style="display:flex;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap">
+        {% if object.stock > 0 %}
+        <form action="{% url 'cart:add' object.id %}" method="post" style="margin:0">
+          {% csrf_token %}
+          <button type="submit" class="btn-teal">🛒 Add to Cart</button>
+        </form>
+        {% else %}
+        <span class="btn-ghost" style="cursor:default;color:#e74c3c">Sold Out</span>
+        {% endif %}
+        {% if user.is_authenticated and not user.is_staff %}
+        <form action="{% url 'accounts:wishlist_toggle' object.id %}" method="post" style="margin:0">
+          {% csrf_token %}
+          <button type="submit" class="btn-ghost">{% if in_wishlist %}❤️ Saved{% else %}🤍 Wishlist{% endif %}</button>
+        </form>
+        {% endif %}
+        <a href="{% url 'products:list' %}" class="btn-ghost">← Back to Shop</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Promotions | Heat Wheels{% endblock %}
+{% block content %}
+<div class="section" style="padding-top:2rem">
+  <h1 style="font-size:1.5rem;font-weight:800;color:#1A1D27;margin-bottom:1.5rem">🏷️ Promotions & Deals</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem">
+    {% for promo in promotions %}
+    <div class="promo-card">
+      <div class="promo-accent"></div>
+      <div class="promo-card-title">{{ promo.title }}</div>
+      <div class="promo-card-sub">{{ promo.description|default:"Limited time offer"|truncatechars:120 }}</div>
+      {% if promo.coupon_code %}
+      <span style="display:inline-block;background:rgba(60,200,200,0.15);color:#3CC8C8;font-weight:700;font-size:0.85rem;padding:0.4rem 0.9rem;border-radius:8px;margin-top:0.5rem">{{ promo.coupon_code }}</span>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1;background:#fff;border-radius:16px;padding:3rem;text-align:center;border:1.5px solid #EAECF3;color:#8A8FA8">
+      No active promotions right now. Check back soon!
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

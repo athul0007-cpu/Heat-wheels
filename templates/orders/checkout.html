@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Checkout | Heat Wheels{% endblock %}
+{% block content %}
+<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div style="background:#fff;border-radius:20px;padding:2.5rem;border:1.5px solid #EAECF3;width:100%;max-width:520px">
+    <h1 style="font-size:1.4rem;font-weight:800;color:#1A1D27;margin-bottom:1.5rem">📦 Checkout</h1>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <div style="margin-bottom:1rem">
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#1A1D27;margin-bottom:0.35rem">{{ field.label }}</label>
+        {% if field.field.widget.input_type == 'select' %}
+        {{ field }}
+        {% else %}
+        <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.html_name }}" value="{{ field.value|default:'' }}"
+          style="width:100%;padding:0.65rem 1rem;border:1.5px solid #EAECF3;border-radius:12px;font-size:0.9rem;outline:none"
+          placeholder="{{ field.label }}">
+        {% endif %}
+        {% for error in field.errors %}<p style="color:#e74c3c;font-size:0.78rem;margin-top:0.25rem">{{ error }}</p>{% endfor %}
+      </div>
+      {% endfor %}
+      <div style="background:#F5F6FA;border-radius:12px;padding:1rem;margin:1rem 0;font-size:0.9rem;color:#1A1D27">
+        <strong>Total:</strong> <span style="color:#3CC8C8;font-weight:700">₹{{ total }}</span>
+      </div>
+      <button type="submit" class="btn-teal" style="width:100%;padding:0.75rem;font-size:0.95rem">Place Order</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

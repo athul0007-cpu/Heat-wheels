@@ -9,7 +9,10 @@ env = environ.Env(
     ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1']),
 )
 
-env.read_env(BASE_DIR / '.env')
+_env_file = BASE_DIR / '.env'
+if _env_file.exists():
+    env.read_env(_env_file)
+
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')

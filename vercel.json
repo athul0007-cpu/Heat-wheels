@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --no-input",
   "env": {
     "DJANGO_SETTINGS_MODULE": "hotwheels_project.settings.production",
     "SECRET_KEY": "h7q-t89m!zp#y_2v4x@w5^d1n(k3j&f6c*s0g$b9l+r2%e1"
@@ -7,21 +8,14 @@
   "builds": [
     {
       "src": "hotwheels_project/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "installCommand": "pip install -r requirements.txt",
-        "buildCommand": "python manage.py collectstatic --no-input"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
     {
       "src": "/(.*)",
       "dest": "hotwheels_project/wsgi.py"
     }
   ]
 }
+

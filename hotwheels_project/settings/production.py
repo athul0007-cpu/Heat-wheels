@@ -1,7 +1,5 @@
 import os
 from .base import *
-import os
-print('🛠️ DEBUG: DATABASE_URL =', os.getenv('DATABASE_URL'))
 
 DEBUG = False
 
@@ -20,7 +18,15 @@ if 'VERCEL_URL' in os.environ:
     CSRF_TRUSTED_ORIGINS.append('https://' + os.environ['VERCEL_URL'])
 
 # In production, set the database connection via environment variables.
-DATABASES['default'] = env.db('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'))
+# Falls back to SQLite if DATABASE_URL is not set or is the placeholder.
+_db_url = os.getenv('DATABASE_URL', '')
+if _db_url and not _db_url.startswith('<'):
+    DATABASES['default'] = env.db('DATABASE_URL')
+else:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 # Static files configuration for production
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -30,7 +36,7 @@ WHITENOISE_USE_FINDERS = True
 # Django 5 uses STORAGES; keep static/media backends explicit for Render.
 # Configure storage backends. Use Cloudinary for media if CLOUDINARY_URL is set;
 # otherwise fall back to the local file system storage.
-import os
+
 if os.getenv('CLOUDINARY_URL'):
     STORAGES = {
         'default': {
@@ -51,5 +57,9 @@ else:
         },
     }
 
-# Allow all origins by default for simplicity; you can restrict later using env var.
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['*'])
+# CORS — only set if django-cors-headers is installed
+try:
+    import corsheaders  # noqa
+    CORS_ALLOW_ALL_ORIGINS = True
+except ImportError:
+    pass
